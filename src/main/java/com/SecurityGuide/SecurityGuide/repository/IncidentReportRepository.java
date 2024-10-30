@@ -14,6 +14,11 @@ public interface IncidentReportRepository extends JpaRepository<IncidentReport, 
 
     @Query("SELECT i FROM IncidentReport i WHERE " +
             "LOWER(i.callerName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(i.incidentNature) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+            "LOWER(i.callerContactInfo) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(i.incidentNature) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(i.equipmentOrPersonsInvolved) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(i.locationOfInvolved) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(i.incidentDetection) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "DATE_FORMAT(i.callTime, '%m/%d/%Y') = :searchTerm") // Matching the callTime as a string
     Page<IncidentReport> findBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageable);
 }
