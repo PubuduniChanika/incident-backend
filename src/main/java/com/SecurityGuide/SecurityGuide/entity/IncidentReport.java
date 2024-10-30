@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,7 +24,7 @@ public class IncidentReport {
     private String callerName;
 
     @Column(name = "call_time", nullable = false)
-    private LocalDateTime callTime;
+    private LocalDate callTime;
 
     @Column(name = "caller_contact_info")
     private String callerContactInfo;

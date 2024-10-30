@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,7 +14,7 @@ public class IncidentReportDTO {
 
     private Long id;
     private String callerName;
-    private LocalDateTime callTime;
+    private LocalDate callTime;
     private String callerContactInfo;
     private String incidentNature;
     private String equipmentOrPersonsInvolved;

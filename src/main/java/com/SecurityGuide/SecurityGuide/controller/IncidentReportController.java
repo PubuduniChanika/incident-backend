@@ -35,9 +35,11 @@ public class IncidentReportController {
     @GetMapping("/admin/get-incidents")
     public Page<IncidentReportDTO> getAllIncidentReports(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return incidentReportService.getAllIncidentReports(page, size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchTerm) {
+        return incidentReportService.getAllIncidentReports(searchTerm, page, size);
     }
+
 
     // Update an IncidentReport
     @PutMapping("update-incident/{id}")

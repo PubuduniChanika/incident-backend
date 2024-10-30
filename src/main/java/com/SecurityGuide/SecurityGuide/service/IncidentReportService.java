@@ -39,11 +39,20 @@ public class IncidentReportService {
     }
 
     // Get all IncidentReports
-    public Page<IncidentReportDTO> getAllIncidentReports(int page, int size) {
+    public Page<IncidentReportDTO> getAllIncidentReports(String searchTerm, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        return incidentReportRepository.findAll(pageable)
-                .map(IncidentReportMapper::toDto);
+
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            // Use a custom query method to filter results based on the searchTerm
+            return incidentReportRepository.findBySearchTerm(searchTerm, pageable)
+                    .map(IncidentReportMapper::toDto);
+        } else {
+            // If no search term is provided, fetch all records
+            return incidentReportRepository.findAll(pageable)
+                    .map(IncidentReportMapper::toDto);
+        }
     }
+
 
 
     // Update an existing IncidentReport
