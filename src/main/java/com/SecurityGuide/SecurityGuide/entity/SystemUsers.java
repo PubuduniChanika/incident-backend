@@ -19,7 +19,7 @@ public class SystemUsers implements UserDetails {
     private String email;
     private String name;
     private String password;
-    private String city;
+    private String designation;
     private String role;
 
     @Override
