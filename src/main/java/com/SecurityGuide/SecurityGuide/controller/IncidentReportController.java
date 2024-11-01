@@ -24,7 +24,7 @@ public class IncidentReportController {
     }
 
     // Get an IncidentReport by ID
-    @GetMapping("get-incident/{id}")
+    @GetMapping("admin/get-incident/{id}")
     public ResponseEntity<IncidentReportDTO> getIncidentReportById(@PathVariable Long id) {
         IncidentReportDTO incidentReportDTO = incidentReportService.getIncidentReportById(id);
         return ResponseEntity.ok(incidentReportDTO);
@@ -42,7 +42,7 @@ public class IncidentReportController {
 
 
     // Update an IncidentReport
-    @PutMapping("update-incident/{id}")
+    @PutMapping("admin/update-incident/{id}")
     public ResponseEntity<IncidentReportDTO> updateIncidentReport(@PathVariable Long id, @RequestBody IncidentReportDTO incidentReportDTO) {
         IncidentReportDTO updatedIncidentReport = incidentReportService.updateIncidentReport(id, incidentReportDTO);
         return ResponseEntity.ok(updatedIncidentReport);
