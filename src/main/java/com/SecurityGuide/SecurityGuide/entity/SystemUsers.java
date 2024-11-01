@@ -21,6 +21,9 @@ public class SystemUsers implements UserDetails {
     private String password;
     private String designation;
     private String role;
+    @ManyToOne
+    @JoinColumn(name = "incident_id")
+    private IncidentReport incidentReport;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

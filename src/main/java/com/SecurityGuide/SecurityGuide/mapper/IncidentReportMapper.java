@@ -14,7 +14,8 @@ public class IncidentReportMapper {
                 entity.getIncidentNature(),
                 entity.getEquipmentOrPersonsInvolved(),
                 entity.getLocationOfInvolved(),
-                entity.getIncidentDetection()
+                entity.getIncidentDetection(),
+                entity.getSystemUsers()
         );
     }
 
@@ -28,6 +29,7 @@ public class IncidentReportMapper {
         incidentReport.setEquipmentOrPersonsInvolved(dto.getEquipmentOrPersonsInvolved());
         incidentReport.setLocationOfInvolved(dto.getLocationOfInvolved());
         incidentReport.setIncidentDetection(dto.getIncidentDetection());
+        incidentReport.setSystemUsers(dto.getSystemUsersList());
         return incidentReport;
     }
 }

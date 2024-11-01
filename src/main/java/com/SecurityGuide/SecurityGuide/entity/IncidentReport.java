@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "incident_report")
@@ -40,4 +41,7 @@ public class IncidentReport {
 
     @Column(name = "incident_detection")
     private String incidentDetection;
+
+    @OneToMany(mappedBy = "incident", cascade = CascadeType.ALL)
+    private List<SystemUsers> systemUsers;
 }
