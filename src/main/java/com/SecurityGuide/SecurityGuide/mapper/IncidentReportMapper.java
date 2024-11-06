@@ -1,11 +1,22 @@
 package com.SecurityGuide.SecurityGuide.mapper;
 
 import com.SecurityGuide.SecurityGuide.dto.IncidentReportDTO;
+import com.SecurityGuide.SecurityGuide.dto.ReqRes;
+import com.SecurityGuide.SecurityGuide.dto.SystemUserDto;
 import com.SecurityGuide.SecurityGuide.entity.IncidentReport;
+import com.SecurityGuide.SecurityGuide.entity.SystemUsers; // Adjust the package if necessary
+
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class IncidentReportMapper {
 
     public static IncidentReportDTO toDto(IncidentReport entity) {
+        List<SystemUserDto> systemUserDtoList = entity.getSystemUsers().stream()
+                .map(SystemUserMapper::systemUserToDto)
+                .collect(Collectors.toList());
+
         return new IncidentReportDTO(
                 entity.getId(),
                 entity.getCallerName(),
@@ -14,7 +25,9 @@ public class IncidentReportMapper {
                 entity.getIncidentNature(),
                 entity.getEquipmentOrPersonsInvolved(),
                 entity.getLocationOfInvolved(),
-                entity.getIncidentDetection()
+                entity.getIncidentDetection(),
+                systemUserDtoList
+
         );
     }
 

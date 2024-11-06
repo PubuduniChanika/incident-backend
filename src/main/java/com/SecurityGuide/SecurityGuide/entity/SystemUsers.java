@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "system_users")
@@ -21,6 +22,8 @@ public class SystemUsers implements UserDetails {
     private String password;
     private String designation;
     private String role;
+    @ManyToMany
+    Set<IncidentReport> incidentReportSet;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -52,4 +55,6 @@ public class SystemUsers implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

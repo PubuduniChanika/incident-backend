@@ -2,14 +2,18 @@ package com.SecurityGuide.SecurityGuide.service;
 
 import com.SecurityGuide.SecurityGuide.dto.IncidentReportDTO;
 import com.SecurityGuide.SecurityGuide.entity.IncidentReport;
+import com.SecurityGuide.SecurityGuide.entity.SystemUsers;
 import com.SecurityGuide.SecurityGuide.mapper.IncidentReportMapper;
 import com.SecurityGuide.SecurityGuide.repository.IncidentReportRepository;
+import com.SecurityGuide.SecurityGuide.repository.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +21,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class IncidentReportService {
+    private static final Logger logger = LoggerFactory.getLogger(IncidentReportService.class);
 
     @Autowired
     private IncidentReportRepository incidentReportRepository;
+    @Autowired
+    private UsersRepo usersRepo;
 
     // Create a new IncidentReport
     public IncidentReportDTO createIncidentReport(IncidentReportDTO incidentReportDTO) {
@@ -31,6 +38,8 @@ public class IncidentReportService {
     // Get an IncidentReport by ID
     public IncidentReportDTO getIncidentReportById(Long id) {
         Optional<IncidentReport> incidentReportOpt = incidentReportRepository.findById(id);
+        logger.info("Fetching incident report with ID: {}", id);
+        logger.debug("Incident Report Optional: {}", incidentReportOpt);
         if (incidentReportOpt.isPresent()) {
             return IncidentReportMapper.toDto(incidentReportOpt.get());
         } else {

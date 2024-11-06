@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "incident_report")
@@ -40,4 +42,12 @@ public class IncidentReport {
 
     @Column(name = "incident_detection")
     private String incidentDetection;
+
+    @ManyToMany
+    @JoinTable(
+            name = "incident_user",
+            joinColumns = @JoinColumn(name = "incident_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    List<SystemUsers> systemUsers;
+
 }

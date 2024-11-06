@@ -24,7 +24,7 @@ public class IncidentReportController {
     }
 
     // Get an IncidentReport by ID
-    @GetMapping("admin/get-incident/{id}")
+    @GetMapping("/admin/get-incident/{id}")
     public ResponseEntity<IncidentReportDTO> getIncidentReportById(@PathVariable Long id) {
         IncidentReportDTO incidentReportDTO = incidentReportService.getIncidentReportById(id);
         return ResponseEntity.ok(incidentReportDTO);
