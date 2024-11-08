@@ -29,6 +29,4 @@ public class IncidentReportDTO {
     private String incidentDetection;
     private List<SystemUserDto> systemUsers;
 
-
-
 }

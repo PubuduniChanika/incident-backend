@@ -28,6 +28,7 @@ public class IncidentReportService {
     @Autowired
     private UsersRepo usersRepo;
 
+
     // Create a new IncidentReport
     public IncidentReportDTO createIncidentReport(IncidentReportDTO incidentReportDTO) {
         IncidentReport incidentReport = IncidentReportMapper.toEntity(incidentReportDTO);
@@ -69,7 +70,6 @@ public class IncidentReportService {
         Optional<IncidentReport> existingIncidentReportOpt = incidentReportRepository.findById(id);
         if (existingIncidentReportOpt.isPresent()) {
             IncidentReport existingIncidentReport = existingIncidentReportOpt.get();
-
             // Update fields
             existingIncidentReport.setCallerName(incidentReportDTO.getCallerName());
             existingIncidentReport.setCallTime(incidentReportDTO.getCallTime());
@@ -79,6 +79,17 @@ public class IncidentReportService {
             existingIncidentReport.setLocationOfInvolved(incidentReportDTO.getLocationOfInvolved());
             existingIncidentReport.setIncidentDetection(incidentReportDTO.getIncidentDetection());
 
+            // Update system users
+            List<SystemUsers> updatedSystemUsers = incidentReportDTO.getSystemUsers().stream()
+                    .map(systemUserDto -> usersRepo.findById(systemUserDto.getId())
+                            .orElseThrow(() -> new RuntimeException("User not found with ID: " + systemUserDto.getId())))
+                    .collect(Collectors.toList());
+            //logger.info("Fetching incident report with ID: {}", systemUserDto.getId());
+            logger.debug("Incident Report Optional: {}", updatedSystemUsers);
+
+            existingIncidentReport.setSystemUsers(updatedSystemUsers);
+
+
             // Save updated entity
             IncidentReport updatedIncidentReport = incidentReportRepository.save(existingIncidentReport);
             return IncidentReportMapper.toDto(updatedIncidentReport);
@@ -86,6 +97,7 @@ public class IncidentReportService {
             throw new RuntimeException("Incident not found with ID: " + id);
         }
     }
+
 
     // Delete an IncidentReport by ID
     public void deleteIncidentReport(Long id) {
