@@ -191,24 +191,5 @@ public class UserManagementService {
     }
 
 
-    public ReqRes getMyInfo(String email){
-        ReqRes reqRes = new ReqRes();
-        try {
-            Optional<SystemUsers> userOptional = usersRepo.findByEmail(email);
-            if (userOptional.isPresent()) {
-                reqRes.setSystemUsers(userOptional.get());
-                reqRes.setStatusCode(200);
-                reqRes.setMessage("successful");
-            } else {
-                reqRes.setStatusCode(404);
-                reqRes.setMessage("User not found for update");
-            }
 
-        }catch (Exception e){
-            reqRes.setStatusCode(500);
-            reqRes.setMessage("Error occurred while getting user info: " + e.getMessage());
-        }
-        return reqRes;
-
-    }
 }

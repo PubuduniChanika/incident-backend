@@ -1,10 +1,14 @@
 package com.SecurityGuide.SecurityGuide.controller;
 
 import com.SecurityGuide.SecurityGuide.dto.IncidentReportDTO;
+import com.SecurityGuide.SecurityGuide.dto.ReqRes;
 import com.SecurityGuide.SecurityGuide.service.IncidentReportService;
+import com.SecurityGuide.SecurityGuide.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +19,8 @@ public class IncidentReportController {
 
     @Autowired
     private IncidentReportService incidentReportService;
+    @Autowired
+    private UserManagementService userManagementService;
 
     // Create a new IncidentReport
     @PostMapping("/public/add-incident")
@@ -53,5 +59,13 @@ public class IncidentReportController {
     public ResponseEntity<Void> deleteIncidentReport(@PathVariable Long id) {
         incidentReportService.deleteIncidentReport(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/my-incidents")
+    public ResponseEntity<ReqRes> getMyIncidents(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        ReqRes response = userManagementService.getMyInfo(email);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }

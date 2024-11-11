@@ -33,8 +33,8 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request.requestMatchers("/auth/**", "/public/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/admin/**").hasAnyAuthority("ISO")
-                        .requestMatchers("/user/**").hasAnyAuthority("USER")
-                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("/user/**").hasAnyAuthority("TEAM")
+                        .requestMatchers("/adminuser/**").hasAnyAuthority("ISO", "TEAM")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
