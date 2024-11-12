@@ -1,6 +1,7 @@
 package com.SecurityGuide.SecurityGuide.service;
 
 import com.SecurityGuide.SecurityGuide.dto.IncidentReportDTO;
+import com.SecurityGuide.SecurityGuide.dto.ReqRes;
 import com.SecurityGuide.SecurityGuide.entity.IncidentReport;
 import com.SecurityGuide.SecurityGuide.entity.SystemUsers;
 import com.SecurityGuide.SecurityGuide.mapper.IncidentReportMapper;
@@ -107,4 +108,28 @@ public class IncidentReportService {
             throw new RuntimeException("Incident not found with ID: " + id);
         }
     }
+
+//    public List<IncidentReport> getAllAssignedIncidentReports(Long userId) {
+//        // Assuming you want to fetch all incidents associated with a specific user
+//        return incidentReportRepository.findBySystemUsers_Id(userId);
+//    }
+
+    public Page<IncidentReportDTO> getAllAssignedIncidentReports(String searchTerm, int page, int size, int userId) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            // Use a custom query method to filter results based on searchTerm and email
+            return incidentReportRepository.findBySearchTermAndUser_Id(searchTerm, userId, pageable)
+                    .map(IncidentReportMapper::toDto);
+        } else {
+            // If no search term is provided, fetch records filtered by email
+            return incidentReportRepository.findAllByUser_Id(userId, pageable)
+                    .map(IncidentReportMapper::toDto);
+        }
+    }
+
+
+
+
+
 }
