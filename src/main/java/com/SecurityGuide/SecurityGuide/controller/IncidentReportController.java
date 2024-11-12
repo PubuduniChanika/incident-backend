@@ -62,10 +62,12 @@ public class IncidentReportController {
     }
 
     @GetMapping("/user/my-incidents")
-    public ResponseEntity<ReqRes> getMyIncidents(){
+    public Page<IncidentReportDTO> getMyIncidents( @RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "10") int size,
+                                                  @RequestParam(required = false) String searchTerm){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        ReqRes response = userManagementService.getMyInfo(email);
-        return ResponseEntity.status(response.getStatusCode()).body(response);
+        return incidentReportService.getAllAssignedIncidentReports(searchTerm,page,size,email);
+
     }
 }

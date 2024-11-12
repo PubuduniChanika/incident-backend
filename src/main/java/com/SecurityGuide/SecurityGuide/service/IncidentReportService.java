@@ -114,8 +114,10 @@ public class IncidentReportService {
 //        return incidentReportRepository.findBySystemUsers_Id(userId);
 //    }
 
-    public Page<IncidentReportDTO> getAllAssignedIncidentReports(String searchTerm, int page, int size, int userId) {
+    public Page<IncidentReportDTO> getAllAssignedIncidentReports(String searchTerm, int page, int size, String email) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+
+        Integer userId = usersRepo.findIdByEmail(email);
 
         if (searchTerm != null && !searchTerm.isEmpty()) {
             // Use a custom query method to filter results based on searchTerm and email
