@@ -54,9 +54,10 @@ public class IncidentReportService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
 
         if (searchTerm != null && !searchTerm.isEmpty()) {
-            // Use a custom query method to filter results based on the searchTerm
-            return incidentReportRepository.findBySearchTerm(searchTerm, pageable)
+            // Use a custom query method to filter results based on the searchTer
+            Page<IncidentReportDTO> response = incidentReportRepository.findBySearchTerm(searchTerm, pageable)
                     .map(IncidentReportMapper::toDto);
+            return response;
         } else {
             // If no search term is provided, fetch all records
             return incidentReportRepository.findAll(pageable)

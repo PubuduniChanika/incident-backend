@@ -13,24 +13,36 @@ public interface IncidentReportRepository extends JpaRepository<IncidentReport, 
 
     Page<IncidentReport> findAll(Pageable pageable);
 
-    @Query("SELECT i FROM IncidentReport i WHERE " +
+    @Query("SELECT i FROM IncidentReport i " +
+            "JOIN i.systemUsers su " +
+            "WHERE (" +
             "LOWER(i.callerName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
             "LOWER(i.callerContactInfo) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
             "LOWER(i.incidentNature) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
             "LOWER(i.equipmentOrPersonsInvolved) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
             "LOWER(i.locationOfInvolved) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
             "LOWER(i.incidentDetection) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "DATE_FORMAT(i.callTime, '%m/%d/%Y') = :searchTerm") // Matching the callTime as a string
+            "DATE_FORMAT(i.callTime, '%m/%d/%Y') = :searchTerm OR " +
+            "LOWER(su.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))" +
+            ")")
     Page<IncidentReport> findBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageable);
 
-    @Query("SELECT ir FROM IncidentReport ir JOIN ir.systemUsers su " +
-            "WHERE su.id = :userId AND " +
-            "(ir.callerName LIKE %:searchTerm% OR ir.incidentNature LIKE %:searchTerm%)")
+    @Query("SELECT i FROM IncidentReport i " +
+            "JOIN i.systemUsers su " +
+            "WHERE su.id = :userId AND (" +
+            "LOWER(i.callerName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(i.callerContactInfo) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(i.incidentNature) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(i.equipmentOrPersonsInvolved) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(i.locationOfInvolved) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(i.incidentDetection) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "DATE_FORMAT(i.callTime, '%m/%d/%Y') = :searchTerm OR " +
+            "LOWER(su.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))" +
+            ")")
     Page<IncidentReport> findBySearchTermAndUser_Id(@Param("searchTerm") String searchTerm,
                                                     @Param("userId") Integer userId,
                                                     Pageable pageable);
-
     // Query to fetch all incident reports filtered by user ID
-    @Query("SELECT ir FROM IncidentReport ir JOIN ir.systemUsers su WHERE su.id = :userId")
+    @Query("SELECT i FROM IncidentReport i JOIN i.systemUsers su WHERE su.id = :userId")
     Page<IncidentReport> findAllByUser_Id(@Param("userId") Integer userId, Pageable pageable);
 }
