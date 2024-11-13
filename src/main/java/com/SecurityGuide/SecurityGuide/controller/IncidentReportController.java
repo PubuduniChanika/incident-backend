@@ -39,12 +39,20 @@ public class IncidentReportController {
     // Get all IncidentReports
 
     @GetMapping("/admin/get-incidents")
-    public Page<IncidentReportDTO> getAllIncidentReports(
+    public ResponseEntity<Page<IncidentReportDTO>> getAllIncidentReports(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String searchTerm) {
-        return incidentReportService.getAllIncidentReports(searchTerm, page, size);
+
+        Page<IncidentReportDTO> incidents = incidentReportService.getAllIncidentReports(searchTerm, page, size);
+
+        if (incidents.hasContent()) {
+            return ResponseEntity.ok(incidents);
+        } else {
+            return ResponseEntity.noContent().build(); // returns 204 if no incidents found
+        }
     }
+
 
 
     // Update an IncidentReport
@@ -62,12 +70,21 @@ public class IncidentReportController {
     }
 
     @GetMapping("/user/my-incidents")
-    public Page<IncidentReportDTO> getMyIncidents( @RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "10") int size,
-                                                  @RequestParam(required = false) String searchTerm){
+    public ResponseEntity<Page<IncidentReportDTO>> getMyIncidents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchTerm) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return incidentReportService.getAllAssignedIncidentReports(searchTerm,page,size,email);
 
+        Page<IncidentReportDTO> incidents = incidentReportService.getAllAssignedIncidentReports(searchTerm, page, size, email);
+
+        if (incidents.hasContent()) {
+            return ResponseEntity.ok(incidents); // 200 OK with content
+        } else {
+            return ResponseEntity.noContent().build(); // 204 No Content if no incidents are found
+        }
     }
+
 }
