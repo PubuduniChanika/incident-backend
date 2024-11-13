@@ -31,6 +31,19 @@ public class IncidentReportMapper {
         );
     }
 
+    public static IncidentReportDTO toNewIncidentDto(IncidentReport entity) {
+        return new IncidentReportDTO(
+                entity.getId(),
+                entity.getCallerName(),
+                entity.getCallTime(),
+                entity.getCallerContactInfo(),
+                entity.getIncidentNature(),
+                entity.getEquipmentOrPersonsInvolved(),
+                entity.getLocationOfInvolved(),
+                entity.getIncidentDetection()
+        );
+    }
+
     public static IncidentReport toEntity(IncidentReportDTO dto) {
         IncidentReport incidentReport = new IncidentReport();
         incidentReport.setId(dto.getId());

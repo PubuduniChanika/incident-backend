@@ -34,7 +34,7 @@ public class IncidentReportService {
     public IncidentReportDTO createIncidentReport(IncidentReportDTO incidentReportDTO) {
         IncidentReport incidentReport = IncidentReportMapper.toEntity(incidentReportDTO);
         IncidentReport savedIncidentReport = incidentReportRepository.save(incidentReport);
-        return IncidentReportMapper.toDto(savedIncidentReport);
+        return IncidentReportMapper.toNewIncidentDto(savedIncidentReport);
     }
 
     // Get an IncidentReport by ID

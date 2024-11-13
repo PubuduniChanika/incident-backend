@@ -1,6 +1,7 @@
 package com.SecurityGuide.SecurityGuide.dto;
 
 import com.SecurityGuide.SecurityGuide.entity.SystemUsers;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class IncidentReportDTO {
 
     private Long id;
@@ -29,4 +31,14 @@ public class IncidentReportDTO {
     private String incidentDetection;
     private List<SystemUserDto> systemUsers;
 
+    public IncidentReportDTO(Long id, String callerName, LocalDate callTime, String callerContactInfo, String incidentNature, String equipmentOrPersonsInvolved, String locationOfInvolved, String incidentDetection) {
+        this.id = id;
+        this.callerName = callerName;
+        this.callTime = callTime;
+        this.callerContactInfo = callerContactInfo;
+        this.incidentNature = incidentNature;
+        this.equipmentOrPersonsInvolved = equipmentOrPersonsInvolved;
+        this.locationOfInvolved = locationOfInvolved;
+        this.incidentDetection = incidentDetection;
+    }
 }
